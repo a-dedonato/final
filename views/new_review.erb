@@ -1,0 +1,19 @@
+<h1>Write a review for <%= @course[:title] %></h1>
+
+<form action="/courses/<%= @course[:id] %>/reviews/create" method="POST">
+  <div class="form-group">
+    <label>Select a rating</label>
+    <select class="form-control" name="rating">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>What would you tell other students who are considering this course?</label>
+    <textarea class="form-control" rows="3" name="comments"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

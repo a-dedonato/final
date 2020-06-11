@@ -5,7 +5,7 @@ DB = Sequel.connect(connection_string)                                          
 #######################################################################################
 
 # Database schema - this should reflect your domain model
-DB.create_table! :classes do
+DB.create_table! :courses do
   primary_key :id
   String :title
   String :course_code
@@ -16,7 +16,7 @@ DB.create_table! :classes do
 end
 DB.create_table! :reviews do
   primary_key :id
-  foreign_key :class_id
+  foreign_key :course_id
   foreign_key :user_id
   Integer :rating
   String :comments, text: true
@@ -29,16 +29,16 @@ DB.create_table! :users do
 end
 
 # Insert initial (seed) data
-class_table = DB.from(:classes)
+course_table = DB.from(:courses)
 
-class_table.insert(title: "Finance I", 
+course_table.insert(title: "Finance I", 
                     course_code: "FINC-430",
                     term: "Fall 2019",
                     professor: "Prof. Darius Winkel",
                     meeting_pattern: "Mon/Thurs 1:30 pm - 3:00 pm",
                     location:"2211 Campus Dr, Evanston, IL 60208")
 
-class_table.insert(title: "Leading in Organizations", 
+course_table.insert(title: "Leading in Organizations", 
                     course_code: "MORS-430",
                     term: "Winter 2019",
                     professor: "Prof. Elijah Davis",
