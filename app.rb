@@ -40,7 +40,7 @@ get "/courses/:id" do
     # SELECT * FROM rsvps WHERE event_id=:id
     @reviews = reviews_table.where(:course_id => params["id"]).to_a
     # SELECT COUNT(*) FROM rsvps WHERE course_id=:id
-    @rating = reviews_table.where(:course_id => params["id"]).avg
+    @rating = reviews_table.where(:course_id => params["id"]).count
     view "course"
 end
 

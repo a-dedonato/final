@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-sm-9">
+        <h1><%= @course[:title] %></h1>
+        <p><%= @course[:course_code] %></p>
+        <p><%= @course[:professor] %></p>
+        <p><%= @course[:meeting_pattern] %></p>
+        <p><%= @course[:location] %></p>
+        <p><%= @rating %></p>
+        <a href="/courses/<%= @course[:id] %>/reviews/new" class="btn btn-primary">Submit a review</a>
+        <% for review in @reviews %>
+            <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
+            <p><%= user %></p>
+            <p><%= @reviews[:rating] %></p>
+            <p><%= @reviews[:comment] %></p>
+        <% end %>
+    </div>
+</div>
