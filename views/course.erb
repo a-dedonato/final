@@ -17,12 +17,8 @@
 <div class="row">
     <% for review in @reviews %>
         <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
-        <h2><%= user[:name] %></h2>
-        <% i=0 >
-        <% while i<@reviews[:rating] do %>
-            <i class="fas fa-star"></i>
-            <% i=i+1 %>
-        <%end%>
+        <h2><%= user[0] %></h2>
+        <p><%= @reviews[:rating] %></p>
         <p><%= @reviews[:comment] %></p>
     <% end %>
 </div>

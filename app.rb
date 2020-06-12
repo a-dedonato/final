@@ -61,12 +61,12 @@ end
 post "/courses/:id/reviews/create" do
     reviews_table.insert(:course_id => params["id"],
                        :rating => params["rating"],
-                      # :user_id => @current_user[:id],
+                       :user_id => @current_user[:id],
                        :comments => params["comments"])
     @course = courses_table.where(:id => params["id"]).to_a[0]
-    view "create_review"
     # send the SMS from your trial Twilio number to your verified non-Twilio number
     client.messages.create(from: "+12057820554", to: "+16314870752", body: "Thank you for submitting a review!")
+    view "create_review"
 end
 
 # Form to create a new user
