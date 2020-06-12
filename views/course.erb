@@ -20,7 +20,9 @@
         <% for review in @reviews %>
             <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
             <h5><%= user[:name] %></h5>
-            <p><%= review[:rating] %></p>
+            <% review[:rating].times do %>
+                <i class="fas fa-star"></i>        
+            <% end %>
             <p><%= review[:comments] %></p>
         <% end %>
     </div>

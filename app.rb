@@ -59,7 +59,7 @@ end
 
 # Receiving end of new review form
 post "/courses/:id/reviews/create" do
-    # if session[:user_id] =! nil
+    if session[:user_id] != nil
         reviews_table.insert(:course_id => params["id"],
                         :rating => params["rating"],
                         :user_id => @current_user[:id],
@@ -68,8 +68,9 @@ post "/courses/:id/reviews/create" do
         # send the SMS from your trial Twilio number to your verified non-Twilio number
         client.messages.create(from: "+12057820554", to: "+16314870752", body: "Thank you for submitting a review!")
         view "create_review"
-    # else
-    #     view "not_logged_in"
+    else
+         view "not_logged_in"
+    end
 end
 
 # Form to create a new user
@@ -80,9 +81,10 @@ end
 # Receiving end of new user form
 post "/users/create" do
     puts params.inspect
-    users_table.insert(:name => params["name"],
+    user_id = users_table.insert(:name => params["name"],
                        :email => params["email"],
                        :password => BCrypt::Password.create(params["password"]))
+    session[:user_id] = user_id
     view "create_user"
 end
 
