@@ -59,14 +59,17 @@ end
 
 # Receiving end of new review form
 post "/courses/:id/reviews/create" do
-    reviews_table.insert(:course_id => params["id"],
-                       :rating => params["rating"],
-                       :user_id => @current_user[:id],
-                       :comments => params["comments"])
-    @course = courses_table.where(:id => params["id"]).to_a[0]
-    # send the SMS from your trial Twilio number to your verified non-Twilio number
-    client.messages.create(from: "+12057820554", to: "+16314870752", body: "Thank you for submitting a review!")
-    view "create_review"
+    # if session[:user_id] =! nil
+        reviews_table.insert(:course_id => params["id"],
+                        :rating => params["rating"],
+                        :user_id => @current_user[:id],
+                        :comments => params["comments"])
+        @course = courses_table.where(:id => params["id"]).to_a[0]
+        # send the SMS from your trial Twilio number to your verified non-Twilio number
+        client.messages.create(from: "+12057820554", to: "+16314870752", body: "Thank you for submitting a review!")
+        view "create_review"
+    # else
+    #     view "not_logged_in"
 end
 
 # Form to create a new user

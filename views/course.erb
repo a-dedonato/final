@@ -14,11 +14,14 @@
         <iframe width="400" height="300" frameborder="0" style="border:0" 
         src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCtovsQvkIUWlNqtYwXY87gEd4ZSmJEhMw&q=<%= @lat_long %>&zoom=14" allowfullscreen></iframe>
     </div>
-<div class="row">
-    <% for review in @reviews %>
-        <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
-        <h2><%= user[0] %></h2>
-        <p><%= @reviews[:rating] %></p>
-        <p><%= @reviews[:comment] %></p>
-    <% end %>
+<div class="row mt-5">
+    <div class="col">
+        <h4>Student Reviews</h4>
+        <% for review in @reviews %>
+            <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
+            <h5><%= user[:name] %></h5>
+            <p><%= review[:rating] %></p>
+            <p><%= review[:comments] %></p>
+        <% end %>
+    </div>
 </div>
