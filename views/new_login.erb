@@ -1,1 +1,13 @@
-<p><a href="/" class="btn btn-primary">View all courses</a></p>
+<h1>Login</h1>
+
+<form action="/logins/create" method="POST">
+  <div class="form-group">
+    <label>Kellogg email address</label>
+    <input type="email" class="form-control" placeholder="your.name@kellogg.northwestern.edu" name="email">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+  <button type="submit" class="btn btn-primary">Sign In</button>
+</form>

@@ -19,6 +19,13 @@ courses_table = DB.from(:courses)
 reviews_table = DB.from(:reviews)
 users_table = DB.from(:users)
 
+# read your API credentials from environment variables
+account_sid = ENV["TWILIO_ACCOUNT_SID"]
+auth_token = ENV["TWILIO_AUTH_TOKEN"]
+
+# set up a client to talk to the Twilio REST API
+client = Twilio::REST::Client.new(account_sid, auth_token)
+
 before do
     # SELECT * FROM users WHERE id = session[:user_id]
     @current_user = users_table.where(:id => session[:user_id]).to_a[0]
@@ -37,10 +44,10 @@ get "/courses/:id" do
     @users_table = users_table
     # SELECT * FROM courses WHERE id=:id
     @course = courses_table.where(:id => params["id"]).to_a[0]
-    # SELECT * FROM rsvps WHERE event_id=:id
+    # SELECT * FROM reviewss WHERE course_id=:id
     @reviews = reviews_table.where(:course_id => params["id"]).to_a
-    # SELECT COUNT(*) FROM rsvps WHERE course_id=:id
-    @rating = reviews_table.where(:course_id => params["id"]).count
+    # SELECT AVERAGE("rating") FROM reviews WHERE course_id=:id
+    @rating = reviews_table.where(:course_id => params["id"]).avg(:rating).to_f
     view "course"
 end
 
@@ -54,10 +61,12 @@ end
 post "/courses/:id/reviews/create" do
     reviews_table.insert(:course_id => params["id"],
                        :rating => params["rating"],
-                       :user_id => @current_user[:id],
+                      # :user_id => @current_user[:id],
                        :comments => params["comments"])
-    @event = events_table.where(:id => params["id"]).to_a[0]
+    @course = courses_table.where(:id => params["id"]).to_a[0]
     view "create_review"
+    # send the SMS from your trial Twilio number to your verified non-Twilio number
+    client.messages.create(from: "+12057820554", to: "+16314870752", body: "Thank you for submitting a review!")
 end
 
 # Form to create a new user
