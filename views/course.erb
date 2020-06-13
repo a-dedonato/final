@@ -4,7 +4,7 @@
         <p><%= @course[:course_code] %></p>
         <p><%= @course[:professor] %></p>
         <p><%= @course[:meeting_pattern] %></p>
-        <p><%= @rating %></p>
+        <p><%= @rating.round(1) %></p>
         <a href="/courses/<%= @course[:id] %>/reviews/new" class="btn btn-primary">Submit a review</a>      
     </div>
     <div class="col-sm-6">
@@ -14,16 +14,27 @@
         <iframe width="400" height="300" frameborder="0" style="border:0" 
         src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCtovsQvkIUWlNqtYwXY87gEd4ZSmJEhMw&q=<%= @lat_long %>&zoom=14" allowfullscreen></iframe>
     </div>
+</div>
 <div class="row mt-5">
     <div class="col">
         <h4>Student Reviews</h4>
         <% for review in @reviews %>
             <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
-            <h5><%= user[:name] %></h5>
-            <% review[:rating].times do %>
-                <i class="fas fa-star"></i>        
-            <% end %>
-            <p><%= review[:comments] %></p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5><%= user[:name] %></h5>
+                </div>
+                <div class="col-sm-6">
+                    <% review[:rating].times do %>
+                        <i class="fas fa-star"></i>        
+                    <% end %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <p><%= review[:comments] %></p>
+                </div>                
+            </div>
         <% end %>
     </div>
 </div>
